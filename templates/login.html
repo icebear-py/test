@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <title> Login</title>
+    <style>
+        /* Animation for entrance effect */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Animation for slide-in effect */
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateX(100%); /* Start from the right */
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0); /* End at original position */
+            }
+        }
+
+        /* Add fade-in animation to the container */
+        .fade-in {
+            animation: fadeIn 0.5s ease-out forwards;
+        }
+
+        /* Add slide-in animation to the login box */
+        .slide-in {
+            animation: slideIn 0.5s ease-out forwards;
+        }
+
+        /* Hover effect for the login box */
+        .hover:scale-105 {
+            transition: transform 0.3s ease;
+        }
+        .hover:shadow-2xl {
+            transition: box-shadow 0.3s ease;
+        }
+    </style>
+</head>
+<body class="bg-gray-900 text-white font-sans min-h-screen flex justify-center items-center">
+
+<div class="container mx-auto flex flex-col md:flex-row items-center justify-center space-y-8 md:space-y-0 md:space-x-12 fade-in">
+    
+    <!-- Left Side with Reduced Image Size -->
+    <div class="hidden md:block w-1/3"> <!-- Reduced width to 1/3 -->
+        <img src="/static/img/p.png" class="w-50 h-auto rounded-lg max-h-72 transition-transform duration-500 hover:scale-105" alt="Left Image"> <!-- Added hover scale animation -->
+    </div>
+
+    <!-- Right Side with Login Form -->
+    <div class="bg-gray-800 rounded-lg p-8 shadow-lg max-w-md w-full slide-in hover:scale-105 hover:shadow-2xl transition-transform duration-300">
+        <h1 class="text-3xl font-bold mb-6 text-center text-indigo-400">Sign In</h1>
+        
+        <!-- Social Sign-In Buttons -->
+        <div class="flex justify-center space-x-4 mb-6">
+            <button id="google_login" class="bg-gray-700 p-3 rounded-full hover:bg-indigo-500 transition duration-300 transform hover:scale-110">
+                <img class="h-6 w-6" src="https://img.icons8.com/?size=100&id=17950&format=png&color=FFFFFF" alt="Google">
+            </button>
+            <button id="github_login" class="bg-gray-700 p-3 rounded-full hover:bg-indigo-500 transition duration-300 transform hover:scale-110">
+                <img class="h-6 w-6" src="https://img.icons8.com/?size=100&id=3tC9EQumUAuq&format=png&color=FFFFFF" alt="GitHub">
+            </button>
+        </div>
+
+        <p class="text-center text-gray-400">or</p>
+
+        <!-- Form -->
+        <form class="mt-5" action="/login" method="POST" id="loginm">
+            <!-- Email Field -->
+            <div class="mb-4">
+                <label for="email" class="block text-sm font-semibold mb-2 text-indigo-200">Email Address</label>
+                <input type="email" id="email" name="email" class="w-full px-4 py-2 bg-gray-700 text-white rounded-md focus:ring-2 focus:ring-indigo-500 focus:outline-none transition duration-300" placeholder="abc@gmail.com" required>
+            </div>
+            
+            <!-- Password Field -->
+            <div class="mb-4">
+                <label for="password" class="block text-sm font-semibold mb-2 text-indigo-200">Password</label>
+                <input type="password" id="password" name="password" class="w-full px-4 py-2 bg-gray-700 text-white rounded-md focus:ring-2 focus:ring-indigo-500 focus:outline-none transition duration-300" placeholder="********" required>
+            </div>
+
+            <!-- Forgot Password -->
+            <div class="flex justify-between items-center mb-6">
+                <div>
+                    <label class="inline-flex items-center">
+                        <input type="checkbox" class="form-checkbox text-indigo-500 bg-gray-800 rounded focus:ring-indigo-500 focus:ring-2">
+                        <span class="ml-2 text-sm">Remember me</span>
+                    </label>
+                </div>
+                <a href="#" class="text-sm text-indigo-400 hover:underline">Forgot password?</a>
+            </div>
+
+            <!-- Submit Button -->
+            <button type="submit" class="w-full bg-indigo-600 text-white py-2 rounded-md hover:bg-indigo-500 transition duration-300 transform hover:scale-105">Sign In</button>
+        </form>
+
+        <!-- Create Account -->
+        <div class="mt-6 text-center">
+            <p class="text-sm text-gray-400">Don't have an account? <a href="/register" class="text-indigo-400 hover:underline">Create account</a></p>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Add event listeners for social login buttons
+    document.getElementById("google_login").onclick = () => {
+        location.href = "/google_login"; // Redirect to Google login
+    };
+
+    document.getElementById("github_login").onclick = () => {
+        location.href = "/github_login"; // Redirect to GitHub login
+    };
+</script>
+
+</body>
+</html>

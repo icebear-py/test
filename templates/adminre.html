@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Registration</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-900 text-white font-sans min-h-screen flex justify-center items-center">
+
+<div class="container mx-auto flex flex-col md:flex-row items-center justify-center space-y-8 md:space-y-0 md:space-x-12">
+    
+    <!-- Image will be hidden on smaller screens -->
+    <div class="hidden md:block w-1/3">
+        <img src="/static/img/o.png" class="w-50 h-auto rounded-lg max-h-72" alt="">
+    </div>
+
+    <!-- Admin Registration Form -->
+    <div class="bg-gray-800 rounded-lg p-8 shadow-xl max-w-md w-full">
+        <h1 class="text-3xl font-bold mb-6 text-center text-indigo-400">Admin Registration</h1>
+        
+        <form action="/submit_admin_registration" method="POST" class="space-y-5" id="adminRegistrationForm">
+            <!-- Name -->
+            <div class="mb-4">
+                <label for="name" class="block text-sm font-semibold mb-2 text-indigo-200">Name</label>
+                <input type="text" id="name" name="name" class="w-full px-4 py-2 bg-gray-700 text-white rounded-md focus:ring-2 focus:ring-indigo-500 focus:outline-none" placeholder="Enter your name" required>
+            </div>
+
+            <!-- Email -->
+            <div class="mb-4">
+                <label for="email" class="block text-sm font-semibold mb-2 text-indigo-200">Email Address</label>
+                <input type="email" id="email" name="email" class="w-full px-4 py-2 bg-gray-700 text-white rounded-md focus:ring-2 focus:ring-indigo-500 focus:outline-none" placeholder="Enter your email" required>
+            </div>
+
+            <!-- Password -->
+            <div class="mb-4">
+                <label for="password" class="block text-sm font-semibold mb-2 text-indigo-200">Password</label>
+                <input type="password" id="password" name="password" class="w-full px-4 py-2 bg-gray-700 text-white rounded-md focus:ring-2 focus:ring-indigo-500 focus:outline-none" placeholder="Enter your password" required>
+            </div>
+
+            <!-- College ID -->
+            <div class="mb-4">
+                <label for="college-id" class="block text-sm font-semibold mb-2 text-indigo-200">Faculty ID</label>
+                <input type="text" id="college-id" name="college_id" class="w-full px-4 py-2 bg-gray-700 text-white rounded-md focus:ring-2 focus:ring-indigo-500 focus:outline-none" placeholder="Enter your college ID number" required>
+            </div>
+
+            <!-- Submit Button -->
+            <button type="submit" class="w-full bg-indigo-600 text-white py-2 rounded-md hover:bg-indigo-500 transition duration-300">Submit for Approval</button>
+        </form>
+        
+        <div class="mt-9 text-lg text-center">
+            Already an admin? <a href="/admin_login" class="text-indigo-400 hover:underline">Login now</a>
+        </div>
+    </div>
+</div>
+
+<!-- JavaScript to handle form submission -->
+<script>
+    document.getElementById("adminRegistrationForm").addEventListener("submit", function(event) {
+        event.preventDefault(); // Prevent default form submission
+
+        const name = document.getElementById("name").value.trim();
+        const email = document.getElementById("email").value.trim();
+        const password = document.getElementById("password").value.trim(); // Use password field
+        const collegeId = document.getElementById("college-id").value.trim();
+
+        // Simulate sending request to backend for approval
+        fetch('/submit_admin_registration', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                name: name,
+                email: email,
+                password: password,  // Corrected this to password
+                college_id: collegeId
+            })
+        }).then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                alert("Your request has been submitted for approval.");
+                window.location.href = "admin_login.html";
+            } else {
+                alert("There was an issue submitting your request.");
+            }
+        }).catch(error => {
+            console.error("Error:", error);
+            alert("Error submitting request. Please try again later.");
+        });
+    });
+</script>
+
+</body>
+</html>

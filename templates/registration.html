@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <title>Registration</title>
+</head>
+<body class="bg-gray-900 text-white font-sans min-h-screen flex justify-center items-center">
+
+<div class="container mx-auto flex flex-col md:flex-row items-center justify-center space-y-8 md:space-y-0 md:space-x-12">
+
+    <!-- Image will be hidden on smaller screens -->
+    <div class="hidden md:block w-1/3">
+        <img src="/static/img/o.png" class="w-50 h-auto rounded-lg max-h-72" alt="Hello">
+    </div>
+
+    <!-- Registration Form -->
+    <div class="bg-gray-800 rounded-lg p-8 shadow-xl max-w-md w-full">
+        <h1 class="text-3xl font-bold mb-6 text-center text-indigo-400">Register Now</h1>
+
+        <form action="/register_email" method="POST" class="space-y-5" id="registrationForm">
+            <div class="flex justify-center space-x-4 mb-4">
+                <button type="button" onclick="set2()" class="bg-gray-700 p-3 rounded-full hover:bg-indigo-500 transition duration-300">Email</button>
+                <button type="button" onclick="set()" class="bg-gray-700 p-3 rounded-full hover:bg-indigo-500 transition duration-300">Phone No.</button>
+            </div>
+
+            <div class="mb-4">
+                <label for="email" class="block text-sm font-semibold mb-2 text-indigo-200">Email Address</label>
+                <input type="email" id="email" name="email" class="w-full px-4 py-2 bg-gray-700 text-white rounded-md focus:ring-2 focus:ring-indigo-500 focus:outline-none" placeholder="abc@gmail.com" required>
+                <p id="email-error" class="error-message hidden text-red-400 text-sm mt-1">This field is compulsory.</p>
+            </div>
+
+            <div class="mb-4 hidden" id="phone-div">
+                <label for="phone" class="block text-sm font-semibold mb-2 text-indigo-200">Phone Number</label>
+                <input type="text" id="phone" name="phone" class="w-full px-4 py-2 bg-gray-700 text-white rounded-md focus:ring-2 focus:ring-indigo-500 focus:outline-none" placeholder="Enter your phone number" required>
+                <p id="phone-error" class="error-message hidden text-red-400 text-sm mt-1">This field is compulsory.</p>
+            </div>
+
+            <button type="button" id="generate_otp" class="w-full bg-indigo-600 text-white py-2 rounded-md hover:bg-indigo-500 transition duration-300">Send</button>
+        </form>
+
+        <div class="mt-5">
+            <p class="mb-2 text-center text-gray-400">or</p>
+            <h2 class="text-lg text-blue-500 text-center">Continue with</h2>
+            <div class="flex justify-center space-x-4 mt-2">
+                <button class="bg-gray-700 p-3 rounded-full hover:bg-indigo-500 transition duration-300" id="google_register">
+                    <img class="h-6 w-6" src="https://img.icons8.com/?size=100&id=17950&format=png&color=FFFFFF" alt="Google">
+                </button>
+                <button class="bg-gray-700 p-3 rounded-full hover:bg-indigo-500 transition duration-300" id="github_register">
+                    <img class="h-6 w-6" src="https://img.icons8.com/?size=100&id=3tC9EQumUAuq&format=png&color=FFFFFF" alt="GitHub">
+                </button>
+            </div>
+        </div>
+
+        <div class="mt-9 text-lg text-center">
+            Already a user? <a href="/login" class="text-indigo-400 hover:underline">Login now</a>
+        </div>
+    </div>
+</div>
+
+<!-- JavaScript -->
+<script>
+    document.getElementById("google_register").onclick = () => location.href = "/google_register";
+    document.getElementById("github_register").onclick = () => location.href = "/github_register";
+
+    function set() {
+        document.getElementById("phone-div").classList.remove("hidden");
+        document.getElementById("email").classList.add("hidden");
+        document.getElementById("email").previousElementSibling.classList.add("hidden"); // Hide email label
+        document.querySelector('form').action = '/register_phone'; // Set action for phone
+    }
+
+    function set2() {
+        document.getElementById("phone-div").classList.add("hidden");
+        document.getElementById("email").classList.remove("hidden");
+        document.getElementById("email").previousElementSibling.classList.remove("hidden"); // Show email label
+        document.querySelector('form').action = '/register_email'; // Set action for email
+    }
+
+    document.getElementById("generate_otp").onclick = (event) => {
+        event.preventDefault(); // Prevent default form submission
+
+        const emailInput = document.getElementById("email").value.trim();
+        const phoneInput = document.getElementById("phone").value.trim();
+        const emailError = document.getElementById("email-error");
+        const phoneError = document.getElementById("phone-error");
+
+        emailError.classList.add("hidden");
+        phoneError.classList.add("hidden");
+
+        // Validate based on selected option
+        if (document.getElementById("phone-div").classList.contains("hidden")) {
+            // Email input is visible
+            if (!emailInput) {
+                emailError.classList.remove("hidden");
+                return;
+            }
+            // Proceed to submit the form
+            document.querySelector('form').submit(); // Submit form for email
+        } else {
+            // Phone input is visible
+            if (!phoneInput) {
+                phoneError.classList.remove("hidden");
+                return;
+            }
+            // Proceed to submit the form
+            document.querySelector('form').submit(); // Submit form for phone
+        }
+    };
+</script>
+
+</body>
+</html>
